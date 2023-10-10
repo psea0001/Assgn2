@@ -8,6 +8,11 @@
     "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/ne_50m_admin_0_countries.json",
     "format": {"type": "topojson", "feature": "ne_50m_admin_0_countries"}
   },
+
+  "config": {
+    "background": "rgba(196, 217, 255, 0.229)"
+  },
+
   "params": [
     {"name": "highlight", "select": {"type": "point", "on": "mouseover"}},
     {"name": "select", "select": "point"}
