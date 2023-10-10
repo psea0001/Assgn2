@@ -1,0 +1,59 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Malaria Cases in Africa (Year 2007 to Year 2017)",
+  "width": 500,
+  "height": 400,
+  "projection": {"type": "equalEarth"},
+  "data": {
+    "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/ne_50m_admin_0_countries.json",
+    "format": {"type": "topojson", "feature": "ne_50m_admin_0_countries"}
+  },
+  "params": [
+    {"name": "highlight", "select": {"type": "point", "on": "mouseover"}},
+    {"name": "select", "select": "point"}
+  ],
+  "transform": [
+    {
+      "lookup": "properties.ISO_A3",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/DatasetAfricaMalaria.csv"
+        },
+        "key": "Country Code",
+        "fields": [
+          "Incidence of malaria (per 1,000 population at risk)",
+          "Malaria cases reported"
+        ]
+      }
+    }
+  ],
+  "mark": {"type": "geoshape", "cursor": "pointer"},
+  "encoding": {
+    "color": {
+      "field": "Incidence of malaria (per 1,000 population at risk)",
+      "type": "quantitative",
+      "title": "Cases per 1000 Population",
+      "scale": {
+        "type": "sequential",
+        "domain": [0, 100, 200, 300, 400, 500],
+        "range": ["#deebf7", "#9ecae1", "#6baed6", "#4292c6", "#084594"]
+      }
+    },
+    "stroke": {
+      "condition": {"param": "highlight", "empty": false, "value": "black"}
+    },
+    "strokeWidth": {
+      "condition": {"param": "highlight", "empty": false, "value": 2},
+      "value": 1
+    },
+    "tooltip": [
+      {"field": "properties.NAME", "type": "nominal", "title": "Country Name"},
+      {"field": "Malaria cases reported", "type": "quantitative"},
+      {
+        "field": "Incidence of malaria (per 1,000 population at risk)",
+        "type": "quantitative",
+        "format": ".2f"
+      }
+    ]
+  }
+}
