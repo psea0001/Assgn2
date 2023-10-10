@@ -10,7 +10,10 @@
   },
 
   "config": {
-    "background": "rgba(196, 217, 255, 0.229)"
+    "background": "rgba(196, 217, 255, 0.229)",
+    "view": {
+      "stroke": "transparent"
+    }
   },
 
   "params": [
