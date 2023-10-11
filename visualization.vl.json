@@ -63,11 +63,11 @@
       }
     },
     "stroke": {
-      "condition": {"param": "highlight", "empty": false, "value": "black"}
+      "condition": {"param": "highlight", "empty": false, "value": "white"}
     },
     "strokeWidth": {
       "condition": {"param": "highlight", "empty": false, "value": 2},
-      "value": 1
+      "value": 2
     },
     "tooltip": [
       {"field": "Country Name", "type": "nominal", "title": "Country Name"},
