@@ -8,7 +8,7 @@
   },
   "hconcat": [
     {
-      "width": 500,
+      "width": 400,
       "height": 500,
       "projection": {"type": "equalEarth"},
       "data": {
