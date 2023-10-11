@@ -1,0 +1,102 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "background": "#EFF5FF",
+  "hconcat": [
+    {
+      "width": 500,
+      "height": 500,
+      "projection": {"type": "equalEarth"},
+      "data": {
+        "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/ne_50m_admin_0_countries.json",
+        "format": {"type": "topojson", "feature": "ne_50m_admin_0_countries"}
+      },
+      "transform": [
+        {
+          "lookup": "properties.ISO_A3",
+          "from": {
+            "data": {
+              "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/DatasetAfricaMalaria.csv"
+            },
+            "key": "Country Code",
+            "fields": ["Country Name"]
+          }
+        }
+      ],
+      "mark": "geoshape",
+      "encoding": {
+        "color": {
+          "condition": {
+            "param": "hover",
+            "empty": false,
+            "field": "Country Name",
+            "type": "nominal",
+            "legend": null
+          },
+          "value": "lightgray"
+        }
+      },
+      "params": [
+        {
+          "name": "hover",
+          "select": {
+            "type": "point",
+            "fields": ["Country Name"],
+            "clear": "mouseout",
+            "on": "mouseover"
+          }
+        }
+      ]
+    },
+    {
+      "width": 500,
+      "height": 500,
+      "title": "Total Reported Malaria Cases in Africa (Year 2007 to Year 2017)",
+      "data": {
+        "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/DatasetAfricaMalaria.csv"
+      },
+      "transform": [
+        {
+          "aggregate": [
+            {"op": "sum", "field": "Malaria cases reported", "as": "TotalCases"}
+          ],
+          "groupby": ["Country Name"]
+        }
+      ],
+      "mark": "bar",
+      "encoding": {
+        "y": {"field": "Country Name", "type": "ordinal", "sort": "-x"},
+        "x": {"field": "TotalCases", "type": "quantitative"},
+        "color": {
+          "condition": {"param": "hover", "empty": false, "value": "#0047AB"},
+          "value": "#6495ED"
+        },
+        "stroke": {
+          "condition": {"param": "hover", "empty": false, "value": "black"}
+        },
+        "strokeWidth": {
+          "condition": {"param": "hover", "empty": false, "value": 2},
+          "value": 1
+        },
+        "tooltip": [
+          {"field": "Country Name", "type": "nominal"},
+          {
+            "field": "TotalCases",
+            "type": "quantitative",
+            "title": "Cumulative Malaria Cases"
+          }
+        ]
+      },
+      "params": [
+        {
+          "name": "hover",
+          "select": {
+            "type": "point",
+            "fields": ["Country Name"],
+            "clear": "mouseout",
+            "on": "mouseover"
+          }
+        }
+      ]
+    }
+  ]
+}
