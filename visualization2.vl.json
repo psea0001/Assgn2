@@ -1,6 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "background": "#EFF5FF",
+  "config": {
+    "view": {
+      "stroke": "transparent"
+    }
+  },
   "hconcat": [
     {
       "width": 500,
@@ -10,6 +15,7 @@
         "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/ne_50m_admin_0_countries.json",
         "format": {"type": "topojson", "feature": "ne_50m_admin_0_countries"}
       },
+      
       "transform": [
         {
           "lookup": "properties.ISO_A3",
