@@ -1,0 +1,32 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 400,
+  "height": 400,
+  "title": "Impact of Basic Sanitation Services on Malaria",
+  "data": {
+    "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/DatasetAfricaMalaria.csv"
+  },
+  "transform": [
+    {
+      "filter": {
+        "and": [
+          "isValid(datum['People using at least basic sanitation services (% of population)'])",
+          "isValid(datum['Incidence of malaria (per 1,000 population at risk)'])"
+        ]
+      }
+    }
+  ],
+  "mark": {"type": "circle", "color": "blue", "size": 90},
+  "encoding": {
+    "x": {
+      "field": "People using at least basic sanitation services (% of population)",
+      "type": "quantitative",
+      "title": "Percentage of Population with Basic Sanitation Services"
+    },
+    "y": {
+      "field": "Incidence of malaria (per 1,000 population at risk)",
+      "type": "quantitative",
+      "title": "Malaria Incidence (per 1,000 population at risk)"
+    }
+  }
+}
