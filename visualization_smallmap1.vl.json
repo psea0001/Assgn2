@@ -1,0 +1,91 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Malaria Cases in Africa (Year 2007 to Year 2017)",
+  "width": 200,
+  "height": 200,
+  "projection": {
+    "type": "equalEarth",
+    "center": [21.758664, -4.038333],
+    "scale": {"expr": "zoom_level"}
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/DatasetAfricaMalaria.csv"
+  },
+  "config": {"background": "#EFF5FF", "view": {"stroke": "transparent"}},
+  "params": [
+    {"name": "highlight", "select": {"type": "point", "on": "mouseover"}},
+    {"name": "select", "select": "point"},
+    {
+      "name": "Year",
+      "value": 2007,
+      "bind": {
+        "input": "range",
+        "min": 2007,
+        "max": 2017,
+        "step": 1,
+        "name": "Year:"
+      }
+    },
+    {
+      "name": "zoom_level",
+      "value": 150,
+      "bind": {
+        "input": "range",
+        "min": 150,
+        "max": 450,
+        "step": 1,
+        "name": "Zoom: "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "lookup": "Country Code",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/ne_50m_admin_0_countries.json",
+          "format": {"type": "topojson", "feature": "ne_50m_admin_0_countries"}
+        },
+        "key": "properties.ISO_A3"
+      },
+      "as": "geo"
+    },
+    {"filter": "datum.Year == Year"}
+  ],
+  "mark": {"type": "geoshape", "cursor": "pointer"},
+  "encoding": {
+    "shape": {"field": "geo", "type": "geojson"},
+    "color": {
+      "condition": {
+        "test": "datum['Country Name'] == 'Congo, Dem. Rep.'",
+        "field": "Incidence of malaria (per 1,000 population at risk)",
+        "type": "quantitative",
+        "title": "Cases per 1000 Population",
+        "scale": {
+          "type": "sequential",
+          "domain": [0, 100, 200, 300, 400, 500],
+          "range": ["#deebf7", "#9ecae1", "#6baed6", "#4292c6", "#084594"]
+        }
+      },
+      "value": "#D3D3D3"
+    },
+    "stroke": {
+      "condition": {"param": "highlight", "empty": false, "value": "black"},
+      "value": "black"
+    },
+    "strokeWidth": {
+      "condition": {"param": "highlight", "empty": false, "value": 3},
+      "value": 0.2
+    },
+    "tooltip": [
+      {"field": "Country Name", "type": "nominal", "title": "Country Name"},
+      {"field": "Year", "type": "quantitative", "title": "Year"},
+      {"field": "Malaria cases reported", "type": "quantitative"},
+      {
+        "field": "Incidence of malaria (per 1,000 population at risk)",
+        "type": "quantitative",
+        "format": ".2f"
+      }
+    ]
+  }
+}
