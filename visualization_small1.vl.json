@@ -1,0 +1,83 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "background": "#EFF5FF",
+  "data": {
+    "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/DatasetAfricaMalaria.csv",
+    "format": {"type": "csv"}
+  },
+  "transform": [
+    {"filter": "datum['Country Name'] == 'Congo, Dem. Rep.'"},
+    {
+      "fold": [
+        "People using at least basic drinking water services (% of population)",
+        "People using at least basic sanitation services (% of population)"
+      ],
+      "as": ["Type", "Percentage"]
+    },
+    {
+      "calculate": "datum.Type === 'People using at least basic drinking water services (% of population)' ? 'Basic Drinking Water (%)' : 'Basic Sanitation (%)'",
+      "as": "ShortType"
+    }
+  ],
+  "layer": [
+    {
+      "mark": "line",
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "temporal",
+          "title": "Year",
+          "axis": {"gridWidth": 0}
+        },
+        "y": {
+          "field": "Percentage",
+          "type": "quantitative",
+          "scale": {"domain": [0, 100]},
+          "title": "Percentage of Population",
+          "axis": {"grid": true, "gridColor": "#616161", "gridWidth": 0.5}
+        },
+        "color": {
+          "field": "ShortType",
+          "type": "nominal",
+          "legend": {"title": "Service Type"},
+          "scale": {
+            "domain": ["Basic Drinking Water (%)", "Basic Sanitation (%)"],
+            "range": ["red", "blue"]
+          }
+        }
+      }
+    },
+    {
+      "mark": "rule",
+      "selection": {
+        "hover": {
+          "type": "single",
+          "on": "mouseover",
+          "empty": "none",
+          "fields": ["Year"],
+          "nearest": true
+        }
+      },
+      "encoding": {
+        "x": {"field": "Year", "type": "temporal"},
+        "opacity": {
+          "condition": {"selection": "hover", "value": 1},
+          "value": 0
+        },
+        "tooltip": [
+          {"field": "Year", "type": "temporal", "title": "Year"},
+          {
+            "field": "People using at least basic drinking water services (% of population)",
+            "type": "quantitative",
+            "title": "Basic Drinking Water (%)"
+          },
+          {
+            "field": "People using at least basic sanitation services (% of population)",
+            "type": "quantitative",
+            "title": "Basic Sanitation (%)"
+          }
+        ]
+      }
+    }
+  ]
+}
