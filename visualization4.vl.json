@@ -7,27 +7,48 @@
   "data": {
     "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/DatasetAfricaMalaria.csv"
   },
-  "transform": [
+  "layer": [
     {
-      "filter": {
-        "and": [
-          "isValid(datum['People using at least basic drinking water services (% of population)'])",
-          "isValid(datum['Incidence of malaria (per 1,000 population at risk)'])"
+      "mark": {"type": "circle", "color": "blue", "size": 90},
+      "encoding": {
+        "x": {
+          "field": "People using at least basic drinking water services (% of population)",
+          "type": "quantitative",
+          "title": "Percentage of Population with Basic Sanitation Services"
+        },
+        "y": {
+          "field": "Incidence of malaria (per 1,000 population at risk)",
+          "type": "quantitative",
+          "title": "Malaria Incidence (per 1,000 population at risk)"
+        },
+        "tooltip": [  
+          {"field": "Country Name", "type": "nominal", "title": "Country Name"},
+          {"field": "Year", "type": "temporal", "title": "Year"},
+          {"field": "People using at least basic drinking water services (% of population)", "type": "quantitative", "title": "Basic Drinking Water Services (% of population)"},
+          {"field": "People using at least basic drinking water services, rural (% of rural population)", "type": "quantitative", "title": "Basic Drinking Water Services (% of Rural Population)"},
+          {"field": "People using at least basic drinking water services, urban (% of urban population)", "type": "quantitative", "title": "Basic Drinking Water Services (% of Urban Population)"}
         ]
       }
-    }
-  ],
-  "mark": {"type": "circle", "color": "red", "size": 90},
-  "encoding": {
-    "x": {
-      "field": "People using at least basic drinking water services (% of population)",
-      "type": "quantitative",
-      "title": "Percentage of Population with Basic Drinking Water Services"
     },
-    "y": {
-      "field": "Incidence of malaria (per 1,000 population at risk)",
-      "type": "quantitative",
-      "title": "Malaria Incidence (per 1,000 population at risk)"
+    {
+      "transform": [
+        {
+          "filter": {
+            "not": {"field": "People using at least basic drinking water services (% of population)", "equal": null},
+            "not": {"field": "Incidence of malaria (per 1,000 population at risk)", "equal": null}
+          }
+        },
+        {
+          "regression": "Incidence of malaria (per 1,000 population at risk)",
+          "on": "People using at least basic drinking water services (% of population)",
+          "method": "linear"
+        }
+      ],
+      "mark": {"type": "line", "color": "black"},
+      "encoding": {
+        "x": {"field": "People using at least basic drinking water services (% of population)", "type": "quantitative"},
+        "y": {"field": "Incidence of malaria (per 1,000 population at risk)", "type": "quantitative"}
+      }
     }
-  }
+  ]
 }

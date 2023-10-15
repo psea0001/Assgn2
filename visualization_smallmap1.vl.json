@@ -23,17 +23,17 @@
         "min": 2007,
         "max": 2017,
         "step": 1,
-        "name": "Year:"
+        "name": "Year: "
       }
     },
     {
       "name": "zoom_level",
-      "value": 150,
+      "value": 300,
       "bind": {
         "input": "range",
-        "min": 150,
+        "min": 140,
         "max": 450,
-        "step": 1,
+        "step": 10,
         "name": "Zoom: "
       }
     }
@@ -74,7 +74,7 @@
       "value": "black"
     },
     "strokeWidth": {
-      "condition": {"param": "highlight", "empty": false, "value": 3},
+      "condition": {"param": "highlight", "empty": false, "value": 2},
       "value": 0.2
     },
     "tooltip": [

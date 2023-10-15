@@ -71,6 +71,7 @@
     },
     "tooltip": [
       {"field": "Country Name", "type": "nominal", "title": "Country Name"},
+      {"field": "Year", "type": "quantitative", "title": "Year"},
       {"field": "Malaria cases reported", "type": "quantitative"},
       {
         "field": "Incidence of malaria (per 1,000 population at risk)",

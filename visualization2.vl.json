@@ -6,41 +6,103 @@
       "stroke": "transparent"
     }
   },
+  
+  "params": [
+    {
+      "name": "Map",
+      "bind": {
+        "input": "select",
+        "options": ["Show by Country", "Show All"]
+      },
+      "value": "Show by Country"
+    }
+  ],
+  
   "hconcat": [
     {
       "width": 400,
       "height": 500,
       "projection": {"type": "equalEarth"},
       "data": {
-        "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/ne_50m_admin_0_countries.json",
-        "format": {"type": "topojson", "feature": "ne_50m_admin_0_countries"}
+        "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/DatasetAfricaMalaria.csv"
       },
       
       "transform": [
         {
-          "lookup": "properties.ISO_A3",
+          "lookup": "Country Code",
           "from": {
             "data": {
-              "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/DatasetAfricaMalaria.csv"
+              "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/ne_50m_admin_0_countries.json",
+              "format": {"type": "topojson", "feature": "ne_50m_admin_0_countries"}
             },
-            "key": "Country Code",
-            "fields": ["Country Name"]
-          }
-        }
-      ],
-      "mark": "geoshape",
-      "encoding": {
-        "color": {
-          "condition": {
-            "param": "hover",
-            "empty": false,
-            "field": "Country Name",
-            "type": "nominal",
-            "legend": null
+            "key": "properties.ISO_A3"
+            
           },
-          "value": "lightgray"
+          "as":"geo"
+        },
+        {
+          "aggregate": [
+            {"op": "sum", "field": "Malaria cases reported", "as": "TotalCases"}
+          ],
+          "groupby": ["Country Name", "geo"]
         }
+        
+
+      ],
+      "mark": {"type": "geoshape", "stroke":"black","strokeWidth":0.2},
+      "encoding": {
+        "shape":{
+          "field": "geo",
+          "type": "geojson"
+        },
+        "color": {
+          "scale": {
+          "type": "sequential",
+          "domain": [0, 20000000, 40000000, 60000000, 80000000, 100000000],
+          "range": ["#deebf7", "#9ecae1", "#6baed6", "#4292c6", "#084594"]
+          },
+          "field": "TotalCases",
+          "type": "quantitative",
+          "condition": [
+            {
+            "test": "Map == 'Show All'",
+            "field": "TotalCases",
+            "type": "quantitative"
+            },
+            {
+            "test": "datum['Country Name'] == hover['Country Name'] && Map == 'Show by Country'",
+            "field": "TotalCases",
+            "type": "quantitative"
+            },
+            {
+            "test": "datum['Country Name'] != hover['Country Name'] || Map != 'Show by Country'",
+            "value": "lightgray"
+            }
+          ]
+        },
+        "stroke": {
+          "condition": [
+          {
+          "test": "Map == 'Show All' && datum['Country Name'] == hover['Country Name']",
+          "value": "black"
+          }
+          ]
+        },
+        "strokeWidth": {
+          "condition": [
+          {
+          "test": "Map == 'Show All' && datum['Country Name'] == hover['Country Name']",
+          "value": 2
+          }
+          ]
+        },
+        "tooltip": [
+          {"field": "Country Name", "type": "nominal", "title": "Country Name"},
+          {"field": "TotalCases", "type": "quantitative", "title": "Cumulative Malaria Cases"}
+          ]
+
       },
+
       "params": [
         {
           "name": "hover",
@@ -73,15 +135,25 @@
         "y": {"field": "Country Name", "type": "ordinal", "sort": "-x"},
         "x": {"field": "TotalCases", "type": "quantitative"},
         "color": {
-          "condition": {"param": "hover", "empty": false, "value": "#0047AB"},
-          "value": "#6495ED"
+          "field": "TotalCases", 
+          "type": "quantitative",
+          "scale": {
+            "type": "sequential",
+            "domain": [0, 20000000, 40000000, 60000000, 80000000, 100000000],
+            "range": ["#deebf7", "#9ecae1", "#6baed6", "#4292c6", "#084594"]
+          },
+          "legend": {
+            "title": "Cumulative Malaria Cases"
+          }
+
         },
         "stroke": {
-          "condition": {"param": "hover", "empty": false, "value": "black"}
+          "condition": {"param": "hover", "empty": false, "value": "black"},
+          "value":"black"
         },
         "strokeWidth": {
           "condition": {"param": "hover", "empty": false, "value": 2},
-          "value": 1
+          "value": 0.2
         },
         "tooltip": [
           {"field": "Country Name", "type": "nominal"},
