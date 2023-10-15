@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Malaria Cases in Africa (Year 2007 to Year 2017)",
+  "title": "Malaria Cases in Africa from Year 2007 to Year 2017",
   "width": 500,
-  "height": 500,
+  "height": 400,
   "projection": {"type": "equalEarth"},
   "data": {
     "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/DatasetAfricaMalaria.csv"
