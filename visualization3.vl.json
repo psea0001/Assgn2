@@ -1,6 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Impact of Basic Sanitation Services on Malaria",
+  "background": "#EFF5FF",
   "width": 400,
   "height": 400,
   "data": {
