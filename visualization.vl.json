@@ -26,7 +26,8 @@
         "input": "range",
         "min": 2007,
         "max": 2017,
-        "step": 1
+        "step": 1,
+        "name": "Year: "
       }
     }
   ],
