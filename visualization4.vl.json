@@ -3,7 +3,7 @@
   "background": "#EFF5FF",
   "width": 300,
   "height": 400,
-  "title": "Impact of Basic Drinking Water Services on Malaria",
+  "title": "Impact of Basic Drinking Water Services on Malaria in Africa",
   "data": {
     "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/DatasetAfricaMalaria.csv"
   },
