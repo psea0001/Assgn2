@@ -21,7 +21,7 @@
   "hconcat": [
     {
       "width": 400,
-      "height": 500,
+      "height": 400,
       "projection": {"type": "equalEarth"},
       "data": {
         "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/DatasetAfricaMalaria.csv"
@@ -117,7 +117,7 @@
     },
     {
       "width": 500,
-      "height": 500,
+      "height": 450,
       "title": "Total Reported Malaria Cases in Africa (Year 2007 to Year 2017)",
       "data": {
         "url": "https://raw.githubusercontent.com/psea0001/Assgn2/main/DatasetAfricaMalaria.csv"
