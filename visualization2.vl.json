@@ -14,7 +14,7 @@
         "input": "select",
         "options": ["Show by Country", "Show All"]
       },
-      "value": "Show by Country"
+      "value": "Show All"
     }
   ],
   
